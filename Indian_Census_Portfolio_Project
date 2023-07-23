@@ -1,0 +1,52 @@
+select * from indian_census.dataset1 ;
+select * from indian_census.dataset2 ;
+
+/* no  of rows into our datasets */
+
+select count(*) as Total_Rows from indian_census.dataset1 ;
+select count(*) as Total_Rows from indian_census.dataset2 ;
+
+/* dataset for rajasthan and gujrat */
+
+select * from indian_census.dataset1 where state in ('rajasthan' , 'gujarat') ;
+
+/* population of india */
+
+select sum(population) as Indian_Population from indian_census.dataset2 ;
+
+/* average growth ratio of india */ 
+
+select truncate(avg(Growth)*100,0) as Avg_Growth_Percentage from indian_census.dataset1 ;
+
+/* avg growth ratio by state */
+
+select State , truncate(avg(Growth)*100,0) as Avg_Growth_Percentage from indian_census.dataset1
+group by State ;
+
+/* avg sex ratio by state */
+
+select State , round(avg(Sex_Ratio),0) as Avg_Sex_Ratio from indian_census.dataset1 
+group by State order by Avg_Sex_Ratio desc ;
+
+/* avg literacy ratio by state */
+
+select State , round(avg(Literacy),0) as Avg_Literacy_Ratio from indian_census.dataset1 
+group by State having round(avg(Literacy),2)>85 order by Avg_Literacy_Ratio desc ;
+
+/* top 3 state showing highest growth ratio */
+
+select State , truncate(avg(Growth)*100,0) as Avg_Growth_Percentage from indian_census.dataset1
+group by State order by truncate(avg(Growth)*100,2) desc limit 3 ;
+
+/* bottom 3 state showing lowest sex ratio */
+
+select State , round(avg(Sex_Ratio),0) as Avg_Sex_Ratio from indian_census.dataset1 
+group by State order by Avg_Sex_Ratio asc limit 3 ;
+
+/* states starting with letter a or r */
+
+select distinct state from indian_census.dataset1 where lower(state) like "a%" or lower(state) like "r%" ;
+
+/* states starting with letter a and end with letter h */
+
+select distinct state from indian_census.dataset1 where lower(state) like "a%" and lower(state) like "%h" ;
